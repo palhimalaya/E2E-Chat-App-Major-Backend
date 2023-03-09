@@ -1,4 +1,4 @@
-const Salt = require("../Models/saltModel");
+const Salt = require("../models/saltModel");
 const asyncHandler = require("express-async-handler");
 
 const updateOrCreateSalt = asyncHandler(async (req, res) => {

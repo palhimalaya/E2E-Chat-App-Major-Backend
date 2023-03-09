@@ -1,12 +1,6 @@
 {
-  "name": "tchat",
+  "name": "backend",
   "version": "1.0.0",
-  "main": "index.js",
-  "scripts": {
-    "start": "nodemon server.js"
-  },
-  "author": "Himalaya Pal",
-  "license": "ISC",
   "description": "",
   "dependencies": {
     "@emotion/react": "^11.9.3",
@@ -28,5 +22,20 @@
     "multer": "^1.4.5-lts.1",
     "nodemon": "^2.0.19",
     "socket.io": "^4.5.4"
-  }
+  },
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/palhimalaya/E2E-Chat-App-Major-Backend.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/palhimalaya/E2E-Chat-App-Major-Backend/issues"
+  },
+  "homepage": "https://github.com/palhimalaya/E2E-Chat-App-Major-Backend#readme"
 }

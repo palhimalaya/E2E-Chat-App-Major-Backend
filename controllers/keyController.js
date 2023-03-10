@@ -61,7 +61,6 @@ const encryptData = asyncHandler(async (req, res) => {
 
     return encrypted.toString("base64");
   });
-
   // Create signature for each chunk using private key
   const signatures = chunks.map((chunk) => {
     const sign = crypto.createSign("SHA256");
@@ -71,10 +70,13 @@ const encryptData = asyncHandler(async (req, res) => {
       key: privateKey,
       passphrase: "your-passphrase",
     });
+
     return signature.toString("base64");
   });
 
-  res.send({ encryptedChunks, signatures });
+  const signedMessage = signatures.join("");
+
+  res.send({ encryptedChunks, signedMessage });
 });
 
 const decryptData = asyncHandler(async (req, res) => {
@@ -105,18 +107,21 @@ const decryptData = asyncHandler(async (req, res) => {
 
   // Split message into 100-character chunks
   const chunks = decryptedResult.match(/.{1,100}/g);
+
   // Verify each signature using public key
-  const isVerified = chunks.every((chunk) => {
+  const isVerified = chunks.map((chunk) => {
     const verify = crypto.createVerify("SHA256");
     verify.update(chunk);
+    verify.end;
+
     return verify.verify(publicKey, signature, "base64");
   });
-  console.log("signature verified:" + isVerified);
+  // console.log("Signature verified:" + isVerified);
   if (isVerified) {
     res.send({ status: 200, decryptedResult: decryptedResult });
-    console.log("Message is not modified");
+    // console.log("Message is not modified");
   } else {
-    console.log("Message is modified");
+    // console.log("Message is modified");
     res.sendStatus(400);
   }
 });

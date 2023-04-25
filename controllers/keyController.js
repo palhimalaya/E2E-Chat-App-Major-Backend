@@ -116,12 +116,12 @@ const decryptData = asyncHandler(async (req, res) => {
 
     return verify.verify(publicKey, signature, "base64");
   });
-  // console.log("Signature verified:" + isVerified);
+  console.log("Signature verified:" + isVerified);
   if (isVerified) {
     res.send({ status: 200, decryptedResult: decryptedResult });
-    // console.log("Message is not modified");
+    console.log("Message is not modified");
   } else {
-    // console.log("Message is modified");
+    console.log("Message is modified");
     res.sendStatus(400);
   }
 });

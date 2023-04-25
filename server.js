@@ -69,11 +69,8 @@ io.on("connection", (socket) => {
     socket.to(room).emit("public key", { room, saltedPublicKey, userId });
     console.log("User Joined Room: " + room);
   });
-  socket.on("typing", (room) => socket.in(room).emit("typing"));
-  socket.on("stop typing", (room) => socket.in(room).emit("stop typing"));
-
-  socket.on("typing", (room) => socket.in(room).emit("typing"));
-  socket.on("stop typing", (room) => socket.in(room).emit("stop typing"));
+  socket.on("typing", (room) => socket.to(room).emit("typing"));
+  socket.on("stop typing", (room) => socket.to(room).emit("stop typing"));
 
   socket.on("new message", async ({ data, signature }) => {
     const newMessageReceived = data;
@@ -84,18 +81,14 @@ io.on("connection", (socket) => {
 
     chat.users.forEach((user) => {
       if (user._id == newMessageReceived.sender._id) return;
-
-      const data = {
-        newMessageReceived,
-        signature,
-      };
-
-      socket.in(user._id).emit("message received", data);
+      else {
+        const data = {
+          newMessageReceived,
+          signature,
+        };
+        socket.in(user._id).emit("message received", data);
+      }
     });
-  });
-  socket.on("image", (data) => {
-    console.log("received image");
-    io.emit("image", data);
   });
 
   socket.off("setup", () => {
